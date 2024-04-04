@@ -41,6 +41,16 @@ class ModuleA4(minitorch.Module):
         super().__init__()
         self.p3 = minitorch.Parameter(15)
 
+class ModuleA5(minitorch.Module):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+@pytest.mark.task0_4
+def test_basic() -> None:
+    mod = ModuleA5()
+    mod.p1 = minitorch.Module()
+    assert mod.p1 == False
 
 @pytest.mark.task0_4
 def test_stacked_demo() -> None:

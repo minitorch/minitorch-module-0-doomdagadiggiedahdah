@@ -12,51 +12,39 @@ from typing import Callable, Iterable
 
 def mul(x: float, y: float) -> float:
     "$f(x, y) = x * y$"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
+    return x * y
 
 
 def id(x: float) -> float:
     "$f(x) = x$"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
-
+    return x
 
 def add(x: float, y: float) -> float:
     "$f(x, y) = x + y$"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
+    return x + y
 
 
 def neg(x: float) -> float:
     "$f(x) = -x$"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
-
+    return x * -1 
 
 def lt(x: float, y: float) -> float:
     "$f(x) =$ 1.0 if x is less than y else 0.0"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
-
+    return 1.0 if x < y else 0.0
 
 def eq(x: float, y: float) -> float:
     "$f(x) =$ 1.0 if x is equal to y else 0.0"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
-
+    return 1.0 if x == y else 0.0
 
 def max(x: float, y: float) -> float:
     "$f(x) =$ x if x is greater than y else y"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
-
+    return x if x > y else y
 
 def is_close(x: float, y: float) -> float:
+    ## I don't understand why the 1e is doing...
+    ## ohhhhh this is supposed to be scientific notation.
     "$f(x) = |x - y| < 1e-2$"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
-
+    return (abs(x - y) < 1e-2)
 
 def sigmoid(x: float) -> float:
     r"""
@@ -70,8 +58,10 @@ def sigmoid(x: float) -> float:
 
     for stability.
     """
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
+    if x > 0:
+        return 1.0 / (1.0 + math.e^(-x))
+    else:
+        return math.e^x / (1.0 + math.e^x)
 
 
 def relu(x: float) -> float:
@@ -80,8 +70,7 @@ def relu(x: float) -> float:
 
     (See https://en.wikipedia.org/wiki/Rectifier_(neural_networks) .)
     """
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
+    return x if x > 0 else 0
 
 
 EPS = 1e-6
@@ -105,13 +94,14 @@ def log_back(x: float, d: float) -> float:
 
 def inv(x: float) -> float:
     "$f(x) = 1/x$"
-    # TODO: Implement for Task 0.1.
-    raise NotImplementedError("Need to implement for Task 0.1")
+    return 1/x
 
 
 def inv_back(x: float, d: float) -> float:
-    r"If $f(x) = 1/x$ compute $d \times f'(x)$"
+    ## I also don't understand this. Maybe this is just a different type of 
+    ## I don't understand how the function plays into this. Do I test for that?
     # TODO: Implement for Task 0.1.
+    r"If $f(x) = 1/x$ compute $d \times f'(x)$"
     raise NotImplementedError("Need to implement for Task 0.1")
 
 
@@ -139,14 +129,20 @@ def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[fl
         A function that takes a list, applies `fn` to each element, and returns a
          new list
     """
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+
+    def inner_map(ls: Iterable[float]) -> Iterable[float]:
+        return_list = []
+        for i in ls:
+            return_list.append(fn(i))
+        return return_list 
+
+    return inner_map
 
 
 def negList(ls: Iterable[float]) -> Iterable[float]:
     "Use `map` and `neg` to negate each element in `ls`"
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+    negator = map(neg)
+    return negator(ls)
 
 
 def zipWith(
@@ -163,16 +159,20 @@ def zipWith(
     Returns:
         Function that takes two equally sized lists `ls1` and `ls2`, produce a new list by
          applying fn(x, y) on each pair of elements.
-
     """
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+
+    def inner_zip(a: Iterable[float], b: Iterable[float]) -> Iterable[float]:
+        c = []
+        for i in range(len(a)):
+            c.append(fn(a[i],b[i]))
+        return c
+    return inner_zip
 
 
 def addLists(ls1: Iterable[float], ls2: Iterable[float]) -> Iterable[float]:
     "Add the elements of `ls1` and `ls2` using `zipWith` and `add`"
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+    added = zipWith(add)
+    return added(ls1, ls2)
 
 
 def reduce(
@@ -190,17 +190,22 @@ def reduce(
          $x_1 \ldots x_n$ and computes the reduction :math:`fn(x_3, fn(x_2,
          fn(x_1, x_0)))`
     """
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+
+    def inner_reduce(iter: Iterable[float]) -> float:
+        accum = start # starts with just a value.
+        for entry in iter: # begins the iter
+            accum = fn(accum, entry) # accum now becomes 
+        return accum
+    return inner_reduce
 
 
 def sum(ls: Iterable[float]) -> float:
     "Sum up a list using `reduce` and `add`."
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+    summed = reduce(add, 0)
+    return summed(ls)
 
 
 def prod(ls: Iterable[float]) -> float:
     "Product of a list using `reduce` and `mul`."
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+    prod_list = reduce(mul, 1)
+    return prod_list(ls)
